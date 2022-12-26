@@ -86,9 +86,11 @@ class PIDController:
 
 
 with tab3:
-    Kp = st.slider("Kp", min_value=0.0, max_value=0.4, value=0.1, step=0.05)
-    Ki = st.slider("Ki", min_value=0.0, max_value=0.5, value=0.1, step=0.01)
-    Kd = st.slider("Kd", min_value=-3e-3, max_value=3e-3, value=-3e-3, step=2e-4)
+    st.sidebar.markdown("## Constants Controls")
+    st.sidebar.markdown("You can **change** the values to change the *graph*.")
+    Kp = st.sidebar.slider("Kp", min_value=0.0, max_value=0.4, value=0.1, step=0.05)
+    Ki = st.sidebar.slider("Ki", min_value=0.0, max_value=0.5, value=0.1, step=0.01)
+    Kd = st.sidebar.slider("Kd", min_value=-3e-3, max_value=3e-3, value=-3e-3, step=2e-4)
 
     def run_pid_temp(Kp,Ki,Kd):
         pid_controller = PIDController(Kp, Ki, Kd, set_point=T_desired)
