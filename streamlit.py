@@ -43,8 +43,6 @@ with tab1:
     simulate_temp(silly_controller, num_steps=30)
 
 
-st.header("Integral Controller")
-
 class PIController:
     def __init__(self, Kp, Ki, set_point):
         self.Kp = Kp
