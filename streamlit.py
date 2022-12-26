@@ -66,7 +66,7 @@ with tab1:
     st.markdown("We can imagine other control problems, where the control input $u$ does not need to be positive. For example we might want to control the torque on the wheels of a car in order to park at a specific position. If we have driven too far, we can set a negative torque and drive backwards. ")
     st.markdown("The mathematical formula for the P controller is: ")
     st.latex(r'''
-    $$u(t) = K_p e(t)$$
+    u(t) = K_p e(t)
     ''')
     st.markdown("Here, $e$ denotes the error. Now, let us apply the `PController` and see what happens to the solar:")
     p_controller = PController(Kp=0.2, set_point=T_desired)
