@@ -1,34 +1,29 @@
-import streamlit as st
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython import display
+display.set_matplotlib_formats('svg')
 
-# Define the questions and answers
-questions = [
-    {
-        "question": "What is the capital of France?",
-        "choices": ["Paris", "London", "New York", "Tokyo"],
-        "answer": "Paris"
-    },
-    {
-        "question": "What is the largest ocean in the world?",
-        "choices": ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
-        "answer": "Pacific Ocean"
-    }
-]
+#define constants
+alpha, beta = 1, 35
+T_ambient, T_desired, T_start = 18, 25, 21
 
-# Create a sidebar for the game
-st.sidebar.title("Multiple Choice Game")
+# system update by discretization of the differential eq.
+def next_temp(u, T, dt):
+    return T+alpha*(T_ambient-T)*dt + beta * u *dt
 
-# Loop through the questions
-for i, question in enumerate(questions):
-    # Display the question
-    st.header(question["question"])
-
-    # Create radio buttons for the multiple choice answers
-    choice = st.radio("Select an answer:", question["choices"])
-
-    # Create a submit button
-    if st.button("Submit", key=f"submit-{i}"):
-        # Check the answer
-        if choice == question["answer"]:
-            st.write("Correct!")
-        else:
-            st.write("Incorrect. The correct answer is:", question["answer"])
+def simulate_temp(controller, num_steps=20):
+    dt = 0.1 # Every time interval dt we set a new control value
+    T = T_start
+    T_list = [T]
+    for k in range(num_steps):
+        # ask controller for u value
+        u = controller.get_control(T,dt)
+        # device only allows to set u between 0 and 1:
+        u = np.clip(u, 0, 1)
+        # simulate what the temperature will be after time interval dt
+        T = next_temp(u, T, dt)
+        T_list.append(T)
+    time = dt*np.arange(num_steps+1)
+    plt.plot(time, np.repeat(T_desired, num_steps+1), ls="--")
+    plt.plot(time, T_list)
+    plt.xlabel("time"); plt.ylabel("Temperature");
