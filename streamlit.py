@@ -48,12 +48,12 @@ class PIController:
         self.set_point = set_point
         self.int_term = 0
 
-def get_control(self, measurement, dt):
-    error = self.set_point - measurement
-    self.int_term += error*self.Ki*dt
-    return self.Kp * error + self.int_term
-pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
-simulate_temp(pi_controller)
+    def get_control(self, measurement, dt):
+        error = self.set_point - measurement
+        self.int_term += error*self.Ki*dt
+        return self.Kp * error + self.int_term
+    pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
+    simulate_temp(pi_controller)
 
 
 st.header("PID Controller")
@@ -67,13 +67,13 @@ class PIDController:
         self.derivative_term = 0
         self.last_error = None
 
-def get_control(self, measurement, dt):
-    error = self.set_point - measurement
-    self.int_term += error*self.Ki*dt
-    if self.last_error is not None:
-        self.derivative_term = (error-self.last_error)/dt*self.Kd
-    self.last_error = error
-    return self.Kp * error + self.int_term + self.derivative_term
+    def get_control(self, measurement, dt):
+        error = self.set_point - measurement
+        self.int_term += error*self.Ki*dt
+        if self.last_error is not None:
+            self.derivative_term = (error-self.last_error)/dt*self.Kd
+        self.last_error = error
+        return self.Kp * error + self.int_term + self.derivative_term
 
 # create sliders for interactive simulation via python
 # Does not work inside Jupyter Book; only in notebook environment
