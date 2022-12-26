@@ -30,8 +30,14 @@ def simulate_temp(controller, num_steps=20):
     plt.xlabel("time"); plt.ylabel("Temperature");
     st.pyplot(fig)
 
-class SillyController:
-    def get_control(self,T,dt):
-        return 0
-silly_controller = SillyController()
-simulate_temp(silly_controller, num_steps=30)
+# Create tabs
+tab1, tab2, tab3 = st.tabs(["Proportional", "Integral", "Derivative"])
+
+with tab1:
+    st.header("A cat")
+    st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
+    class SillyController:
+        def get_control(self,T,dt):
+            return 0
+    silly_controller = SillyController()
+    simulate_temp(silly_controller, num_steps=30)
