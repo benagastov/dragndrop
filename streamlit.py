@@ -92,7 +92,7 @@ with tab2:
     st.markdown("The formula for the PI controller is: ")
     st.markdown("The control variable now depends on the time integral of the error. Imagine the situation from before: We have a P controller, which comes close to the desired temperature but there is still a gap. If we now switch to a PI controller, the integral term $K_I \int_0^t e(t) dt$ grows over time and it will close the gap. The integral term is looking into the past and saying: Hey, we have been below the `set_point` for quite some while now! We should increase the heat!. Let us implement the PI controller and see how it solves the steady-state error problem:")
     st.latex(r'''
-    $$u(t) = K_p e(t) + K_I \int_0^t e(t) dt$$
+    u(t) = K_p e(t) + K_I \int_0^t e(t) dt
     ''')
     pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
     simulate_temp(pi_controller)
