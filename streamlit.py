@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from IPython import display
 
 # Create tabs
-tab1, tab2, tab3 = st.tabs(["Proportional", "Integral", "PID"])
+tab0, tab1, tab2, tab3 = st.tabs(["Dummy","Proportional", "Integral", "PID"])
 
 #define constants
 alpha, beta = 1, 35
@@ -37,17 +37,43 @@ def simulate_temp(controller, num_steps=20):
 class SillyController:
     def get_control(self,T,dt):
         return 0
-with tab1:
-    st.header("Proportional Controller")
+with tab0:
+    st.header("Dummy Controller")
     st.markdown("Imagine that we have prepared a solar cell to improve its performance, but the temperature of the solar cell is more than 29°C or less than 20°C and should be 25°C. The ambient temperature in our room is 19°C and this will reduce the performance or even damage the solar cell. Luckily, we have a device that can heat up the solar cell. The device uses electricity to produce heat and we can manipulate the power $u$. We are also able to monitor the temperature of the solar cell $T$. What we are facing is a performance optimization problem.")
     st.markdown("Before we explore a solution, let us write some code to simulate the scenario. We will model the temperature dynamics through Newton's law of cooling.")
     st.latex(r'''
     \frac{dT}{dt}=\alpha (T_a - T(t)) + \beta u(t)
     ''')
     st.markdown("Here, $d/dt$ is the time derivative, $T_a$ is the ambient temperature and $u$ the power of the heating device. \alpha and \beta are constants. We are not going to try to estimate realistic values for \alpha and \beta for our problem. This is still ideal environment. Using the equation above, let us write some simulation code. ")
+    st.markdown("The `simulate_temp` function needs a `controller` object as an input. This `controller` has a function `get_control()`, which looks at the current temperature `T` and the time `dt` that has elapsed since the last control command was issued. It tells us to which power $u$ we should set our cooling or heating device.")
+    st.markdown("First let us create a very silly controller: It will always set $u$ to zero. Therefore, we are not activating the cooling or heating device and it will cool down or heat up to the ambient temperature:")
     silly_controller = SillyController()
     simulate_temp(silly_controller, num_steps=30)
+    st.markdown(":Indeed, if we do nothing, the solar panel cools down. But now let us try to create a proper controller. ")
 
+class PController:
+    def __init__(self, Kp, set_point):
+        self.Kp = Kp
+        self.set_point = set_point
+    
+    def get_control(self, measurement, dt):
+        error = self.set_point - measurement
+        return self.Kp * error
+
+with tab1:
+    st.header("Proportional Controller")
+    st.markdown("The idea of the P controller or proportional controller is simple: Imagine that we are turning a knob on the heating device that sets the value of $u$. We look at the difference between the desired temperature and the current temperature, the so-called error. If the error is large and positive (desired temperature > current temperature) we choose $u$ to be large and positive. This will heat up the solar panel and the error will go down. The more the error goes down, the more we would turn the $u$-knob towards zero. If the error is negative, i.e., the current solar panel temperature is too high (dangerous for the photovoltaic cell!), we would like to cool the panel down by setting $u$ to a negative value. Unfortunately, this is something we cannot do with our electrical heater. ")
+    st.markdown("We can imagine other control problems, where the control input $u$ does not need to be positive. For example we might want to control the torque on the wheels of a car in order to park at a specific position. If we have driven too far, we can set a negative torque and drive backwards. ")
+    st.markdown("The mathematical formula for the P controller is: ")
+    st.latex(r'''
+    $$u(t) = K_p e(t)$$
+    ''')
+    st.markdown("Here, $e$ denotes the error. Now, let us apply the `PController` and see what happens to the solar:")
+    pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
+    simulate_temp(pi_controller)
+    st.markdown("As you can see, the solar panel's temperature goes up, but not quite to the value we wanted. There is still a gap between the actual temperature and the desired temperature. This is known as steady state error and is a typical problem with a `PController`.  ")
+    st.markdown("In a real system it can be hard to understand why there is a *steady state error*, because we might not even have a model of the system. For our simulated solar panel system however, we can understand it: Assume that the actual temperature is equal to the desired temperature. Then the error `T_desired-T` is zero and hence `u=K_d * (T_desired-T)` is zero. This means no heat is added and the solar panel cools down below `T==T_desired`. A steady state is reached when the heat generated by the error is equal to the heat that is lost to the room. ")
+    st.markdown("Now we could increase the `set_point` to "desired temperature plus a bit more". This would increase the steady state temperature and make it come closer to our desired temperature. But there exists a much better solution! The proportional integral or PI controller!  ")
 
 class PIController:
     def __init__(self, Kp, Ki, set_point):
@@ -63,10 +89,10 @@ class PIController:
 
 with tab2:
     st.header("PI Controller")
-    st.markdown("The `simulate_temp` function needs a `controller` object as an input. This `controller` has a function `get_control()`, which looks at the current temperature `T` and the time `dt` that has elapsed since the last control command was issued. It tells us to which power $u$ we should set our cooling or heating device.")
-    st.markdown("First let us create a very silly controller: It will always set $u$ to zero. Therefore, we are not activating the cooling or heating device and it will cool down or heat up to the ambient temperature:")
+    st.markdown(":Indeed, if we do nothing, the solar panel cools down. But now let us try to create a proper controller. ")
     pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
     simulate_temp(pi_controller)
+    st.markdown(":Indeed, if we do nothing, the solar panel cools down. But now let us try to create a proper controller. ")
 
 
 
