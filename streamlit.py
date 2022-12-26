@@ -41,6 +41,8 @@ with tab1:
     st.header("Proportional Controller")
     st.markdown("Imagine that we have prepared a solar cell to improve its performance, but the temperature of the solar cell is more than 29°C or less than 20°C and should be 25°C. The ambient temperature in our room is 19°C and this will reduce the performance or even damage the solar cell. Luckily, we have a device that can heat up the solar cell. The device uses electricity to produce heat and we can manipulate the power $u$. We are also able to monitor the temperature of the solar cell $T$. What we are facing is a performance optimization problem.")
     st.markdown("Before we explore a solution, let us write some code to simulate the scenario. We will model the temperature dynamics through Newton's law of cooling.")
+    st.markdown("\frac{dT}{dt}=\alpha (T_a - T(t)) + \beta u(t)")
+    st.markdown("Here, $d/dt$ is the time derivative, $T_a$ is the ambient temperature and $u$ the power of the heating device. $\alpha$ and $\beta$ are constants. We are not going to try to estimate realistic values for $\alpha$ and $\beta$ for our problem. This is still ideal environment. Using the equation above, let us write some simulation code. ")
     silly_controller = SillyController()
     simulate_temp(silly_controller, num_steps=30)
 
