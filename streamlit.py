@@ -56,7 +56,7 @@ class PIController:
         return self.Kp * error + self.int_term
 
 with tab2:
-    st.header("Integral Controller")
+    st.header("PI Controller")
     pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
     simulate_temp(pi_controller)
 
