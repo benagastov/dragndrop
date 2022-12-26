@@ -30,9 +30,6 @@ def simulate_temp(controller, num_steps=20):
     plt.xlabel("time"); plt.ylabel("Temperature");
     st.pyplot(fig)
 
-# Create tabs
-tab1, tab2, tab3 = st.tabs(["Proportional", "Integral", "Derivative"])
-
 
 st.header("Proportional Controller")
 class SillyController:
