@@ -33,55 +33,50 @@ def simulate_temp(controller, num_steps=20):
 # Create tabs
 tab1, tab2, tab3 = st.tabs(["Proportional", "Integral", "Derivative"])
 
-with tab1:
-    st.header("Proportional Controller")
-    class SillyController:
-        def get_control(self,T,dt):
-            return 0
-    silly_controller = SillyController()
-    simulate_temp(silly_controller, num_steps=30)
 
-with tab2:
-    st.header("Integral Controller")
-    class SillyController:
-        def get_control(self,T,dt):
-            return 0
-    class PIController:
-        def __init__(self, Kp, Ki, set_point):
-            self.Kp = Kp
-            self.Ki = Ki
-            self.set_point = set_point
-            self.int_term = 0
-    
-    def get_control(self, measurement, dt):
-        error = self.set_point - measurement
-        self.int_term += error*self.Ki*dt
-        return self.Kp * error + self.int_term
-    pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
-    simulate_temp(pi_controller)
+st.header("Proportional Controller")
+class SillyController:
+    def get_control(self,T,dt):
+        return 0
+silly_controller = SillyController()
+simulate_temp(silly_controller, num_steps=30)
 
-with tab3:
-    class SillyController:
-        def get_control(self,T,dt):
-            return 0
-    st.header("PID Controller")
-    class PIDController:
-        def __init__(self, Kp, Ki, Kd, set_point):
-            self.Kp = Kp
-            self.Ki = Ki
-            self.Kd = Kd
-            self.set_point = set_point
-            self.int_term = 0
-            self.derivative_term = 0
-            self.last_error = None
-    
-    def get_control(self, measurement, dt):
-        error = self.set_point - measurement
-        self.int_term += error*self.Ki*dt
-        if self.last_error is not None:
-            self.derivative_term = (error-self.last_error)/dt*self.Kd
-        self.last_error = error
-        return self.Kp * error + self.int_term + self.derivative_term
+
+st.header("Integral Controller")
+
+class PIController:
+    def __init__(self, Kp, Ki, set_point):
+        self.Kp = Kp
+        self.Ki = Ki
+        self.set_point = set_point
+        self.int_term = 0
+
+def get_control(self, measurement, dt):
+    error = self.set_point - measurement
+    self.int_term += error*self.Ki*dt
+    return self.Kp * error + self.int_term
+pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
+simulate_temp(pi_controller)
+
+
+st.header("PID Controller")
+class PIDController:
+    def __init__(self, Kp, Ki, Kd, set_point):
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
+        self.set_point = set_point
+        self.int_term = 0
+        self.derivative_term = 0
+        self.last_error = None
+
+def get_control(self, measurement, dt):
+    error = self.set_point - measurement
+    self.int_term += error*self.Ki*dt
+    if self.last_error is not None:
+        self.derivative_term = (error-self.last_error)/dt*self.Kd
+    self.last_error = error
+    return self.Kp * error + self.int_term + self.derivative_term
 
 # create sliders for interactive simulation via python
 # Does not work inside Jupyter Book; only in notebook environment
