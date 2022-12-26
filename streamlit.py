@@ -126,7 +126,7 @@ class PIDController:
 with tab3:
     st.markdown("The formula for the PID controller is: ")
     st.latex(r'''
-    $$u(t) = K_p e(t) + K_I \int_0^t e(t) dt + K_d \frac{de}{dt}$$
+    u(t) = K_p e(t) + K_I \int_0^t e(t) dt + K_d \frac{de}{dt}
     ''')
     st.markdown("In our Solar Panel problem, the PID controller doesn't provide much benefit. You can find an interactive simulation of the solar panel system below, where you can adjust the parameters $K_p, K_i, K_d$ using sliders. You'll notice that the derivative term doesn't contribute much here.")
     col1, col2 = st.columns([1, 3])
