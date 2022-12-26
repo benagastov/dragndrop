@@ -34,12 +34,11 @@ def simulate_temp(controller, num_steps=20):
     st.pyplot(fig)
 
 
-st.header("Proportional Controller")
 class SillyController:
     def get_control(self,T,dt):
         return 0
 with tab1:
-    st.header("A cat")
+    st.header("Proportional Controller")
     silly_controller = SillyController()
     simulate_temp(silly_controller, num_steps=30)
 
@@ -59,12 +58,12 @@ class PIController:
         return self.Kp * error + self.int_term
 
 with tab2:
-    st.header("A cat")
+    st.header("PID Controller")
     pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
     simulate_temp(pi_controller)
 
 
-st.header("PID Controller")
+
 class PIDController:
     def __init__(self, Kp, Ki, Kd, set_point):
         self.Kp = Kp
@@ -95,7 +94,7 @@ def run_pid_temp(Kp,Ki,Kd):
     simulate_temp(pid_controller)
 
 with tab3:
-    st.header("A cat")
+    st.header("PID Controller")
     run_pid_temp(Kp,Ki,Kd)
 
 
