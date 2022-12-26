@@ -44,11 +44,11 @@ with tab1:
 with tab2:
     st.header("Integral Controller")
     class PIController:
-    def __init__(self, Kp, Ki, set_point):
-        self.Kp = Kp
-        self.Ki = Ki
-        self.set_point = set_point
-        self.int_term = 0
+        def __init__(self, Kp, Ki, set_point):
+            self.Kp = Kp
+            self.Ki = Ki
+            self.set_point = set_point
+            self.int_term = 0
     
     def get_control(self, measurement, dt):
         error = self.set_point - measurement
@@ -60,14 +60,14 @@ with tab2:
 with tab3:
     st.header("PID Controller")
     class PIDController:
-    def __init__(self, Kp, Ki, Kd, set_point):
-        self.Kp = Kp
-        self.Ki = Ki
-        self.Kd = Kd
-        self.set_point = set_point
-        self.int_term = 0
-        self.derivative_term = 0
-        self.last_error = None
+        def __init__(self, Kp, Ki, Kd, set_point):
+            self.Kp = Kp
+            self.Ki = Ki
+            self.Kd = Kd
+            self.set_point = set_point
+            self.int_term = 0
+            self.derivative_term = 0
+            self.last_error = None
     
     def get_control(self, measurement, dt):
         error = self.set_point - measurement
@@ -76,3 +76,16 @@ with tab3:
             self.derivative_term = (error-self.last_error)/dt*self.Kd
         self.last_error = error
         return self.Kp * error + self.int_term + self.derivative_term
+
+# create sliders for interactive simulation via python
+# Does not work inside Jupyter Book; only in notebook environment
+from ipywidgets import interact, FloatSlider
+import ipywidgets as widgets
+def run_pid_temp(Kp,Ki,Kd):
+    pid_controller = PIDController(Kp, Ki, Kd, set_point=T_desired)
+    simulate_temp(pid_controller)
+
+Kp_slider = FloatSlider(min=0.0, max=0.8, step=0.05, readout_format='.4f')
+Ki_slider = FloatSlider(min=0.0, max=0.5, step=0.01, readout_format='.4f')
+Kd_slider = FloatSlider(min=-3e-3, max=3e-3, step=2e-4, readout_format='.4f')
+interact(run_pid_temp, Kp=Kp_slider, Ki=Ki_slider, Kd=Kd_slider);
