@@ -44,7 +44,7 @@ with tab1:
     st.latex(r'''
     \frac{dT}{dt}=\alpha (T_a - T(t)) + \beta u(t)
     ''')
-    st.markdown("Here, $d/dt$ is the time derivative, $T_a$ is the ambient temperature and $u$ the power of the heating device. $\alpha$ and $\beta$ are constants. We are not going to try to estimate realistic values for $\alpha$ and $\beta$ for our problem. This is still ideal environment. Using the equation above, let us write some simulation code. ")
+    st.markdown("Here, $d/dt$ is the time derivative, $T_a$ is the ambient temperature and $u$ the power of the heating device. \alpha and \beta are constants. We are not going to try to estimate realistic values for \alpha and \beta for our problem. This is still ideal environment. Using the equation above, let us write some simulation code. ")
     silly_controller = SillyController()
     simulate_temp(silly_controller, num_steps=30)
 
@@ -63,6 +63,8 @@ class PIController:
 
 with tab2:
     st.header("PI Controller")
+    st.markdown("The `simulate_temp` function needs a `controller` object as an input. This `controller` has a function `get_control()`, which looks at the current temperature `T` and the time `dt` that has elapsed since the last control command was issued. It tells us to which power $u$ we should set our cooling or heating device.")
+    st.markdown("First let us create a very silly controller: It will always set $u$ to zero. Therefore, we are not activating the cooling or heating device and it will cool down or heat up to the ambient temperature:")
     pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
     simulate_temp(pi_controller)
 
