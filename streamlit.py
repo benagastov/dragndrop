@@ -52,8 +52,8 @@ class PIController:
         error = self.set_point - measurement
         self.int_term += error*self.Ki*dt
         return self.Kp * error + self.int_term
-    pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
-    simulate_temp(pi_controller)
+pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
+simulate_temp(pi_controller)
 
 
 st.header("PID Controller")
