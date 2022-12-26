@@ -27,3 +27,9 @@ def simulate_temp(controller, num_steps=20):
     plt.plot(time, np.repeat(T_desired, num_steps+1), ls="--")
     plt.plot(time, T_list)
     plt.xlabel("time"); plt.ylabel("Temperature");
+
+class SillyController:
+    def get_control(self,T,dt):
+        return 0
+silly_controller = SillyController()
+simulate_temp(silly_controller, num_steps=30)
