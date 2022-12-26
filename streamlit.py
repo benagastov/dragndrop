@@ -89,6 +89,7 @@ with tab3:
     col1, col2 = st.columns([1, 3])
     with col1:
         st.markdown("## Constants Controls")
+        st.markdown("You can **change** the values to change the *graph*.")
         Kp =  st.slider("Kp", min_value=0.0, max_value=0.4, value=0.1, step=0.05)
         Ki =  st.slider("Ki", min_value=0.0, max_value=0.5, value=0.1, step=0.01)
         Kd =  st.slider("Kd", min_value=-3e-3, max_value=3e-3, value=-3e-3, step=2e-4)
