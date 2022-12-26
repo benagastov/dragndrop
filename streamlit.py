@@ -39,7 +39,8 @@ class SillyController:
         return 0
 with tab1:
     st.header("Proportional Controller")
-    st.markdown("Imagine that we have prepared a solar cell to improve its performance, but the temperature of the solar cell is more than 29°C or less than 20°C and should be 25°C. The ambient temperature in our room is 19°C and this will reduce the performance or even damage the solar cell. Luckily, we have a device that can heat up the solar cell. The device uses electricity to produce heat and we can manipulate the power $u$. We are also able to monitor the temperature of the solar cell $T$. What we are facing is a performance optimization problem. \n Before we explore a solution, let us write some code to simulate the scenario. We will model the temperature dynamics through Newton's law of cooling.")
+    st.markdown("Imagine that we have prepared a solar cell to improve its performance, but the temperature of the solar cell is more than 29°C or less than 20°C and should be 25°C. The ambient temperature in our room is 19°C and this will reduce the performance or even damage the solar cell. Luckily, we have a device that can heat up the solar cell. The device uses electricity to produce heat and we can manipulate the power $u$. We are also able to monitor the temperature of the solar cell $T$. What we are facing is a performance optimization problem.")
+    st.markdown("Before we explore a solution, let us write some code to simulate the scenario. We will model the temperature dynamics through Newton's law of cooling.")
     silly_controller = SillyController()
     simulate_temp(silly_controller, num_steps=30)
 
