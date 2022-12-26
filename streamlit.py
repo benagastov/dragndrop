@@ -77,13 +77,13 @@ class PIDController:
 
 # create sliders for interactive simulation via python
 # Does not work inside Jupyter Book; only in notebook environment
-from ipywidgets import interact, FloatSlider
-import ipywidgets as widgets
+
 def run_pid_temp(Kp,Ki,Kd):
     pid_controller = PIDController(Kp, Ki, Kd, set_point=T_desired)
     simulate_temp(pid_controller)
 
-Kp_slider = FloatSlider(min=0.0, max=0.8, step=0.05, readout_format='.4f')
-Ki_slider = FloatSlider(min=0.0, max=0.5, step=0.01, readout_format='.4f')
-Kd_slider = FloatSlider(min=-3e-3, max=3e-3, step=2e-4, readout_format='.4f')
-interact(run_pid_temp, Kp=Kp_slider, Ki=Ki_slider, Kd=Kd_slider);
+Kp = st.slider(label, min_value=0.0, max_value=0.8, value=0.1, step=0.05)
+Ki = st.slider(label, min_value=0.0, max_value=0.5, value=0.1, step=0.01)
+Kd = st.slider(label, min_value=-3e-3, max_value=3e-3, value=-3e-3, step=2e-4)
+
+
