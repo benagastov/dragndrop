@@ -43,6 +43,9 @@ with tab1:
 
 with tab2:
     st.header("Integral Controller")
+    class SillyController:
+        def get_control(self,T,dt):
+            return 0
     class PIController:
         def __init__(self, Kp, Ki, set_point):
             self.Kp = Kp
@@ -58,6 +61,9 @@ with tab2:
     simulate_temp(pi_controller)
 
 with tab3:
+    class SillyController:
+        def get_control(self,T,dt):
+            return 0
     st.header("PID Controller")
     class PIDController:
         def __init__(self, Kp, Ki, Kd, set_point):
