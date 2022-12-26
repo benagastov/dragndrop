@@ -3,6 +3,9 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from IPython import display
 
+# Create tabs
+tab1, tab2, tab3 = st.tabs(["Proportional", "Integral", "PID"])
+
 #define constants
 alpha, beta = 1, 35
 T_ambient, T_desired, T_start = 18, 25, 21
@@ -35,8 +38,10 @@ st.header("Proportional Controller")
 class SillyController:
     def get_control(self,T,dt):
         return 0
-silly_controller = SillyController()
-simulate_temp(silly_controller, num_steps=30)
+with tab1:
+    st.header("A cat")
+    silly_controller = SillyController()
+    simulate_temp(silly_controller, num_steps=30)
 
 
 st.header("Integral Controller")
@@ -52,8 +57,11 @@ class PIController:
         error = self.set_point - measurement
         self.int_term += error*self.Ki*dt
         return self.Kp * error + self.int_term
-pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
-simulate_temp(pi_controller)
+
+with tab2:
+    st.header("A cat")
+    pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
+    simulate_temp(pi_controller)
 
 
 st.header("PID Controller")
@@ -86,6 +94,8 @@ def run_pid_temp(Kp,Ki,Kd):
     pid_controller = PIDController(Kp, Ki, Kd, set_point=T_desired)
     simulate_temp(pid_controller)
 
-run_pid_temp(Kp,Ki,Kd)
+with tab3:
+    st.header("A cat")
+    run_pid_temp(Kp,Ki,Kd)
 
 
