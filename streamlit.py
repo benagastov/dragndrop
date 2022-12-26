@@ -89,10 +89,14 @@ class PIController:
 
 with tab2:
     st.header("PI Controller")
-    st.markdown(":Indeed, if we do nothing, the solar panel cools down. But now let us try to create a proper controller. ")
+    st.markdown("The formula for the PI controller is: ")
+    st.markdown("The control variable now depends on the time integral of the error. Imagine the situation from before: We have a P controller, which comes close to the desired temperature but there is still a gap. If we now switch to a PI controller, the integral term $K_I \int_0^t e(t) dt$ grows over time and it will close the gap. The integral term is looking into the past and saying: Hey, we have been below the `set_point` for quite some while now! We should increase the heat!. Let us implement the PI controller and see how it solves the steady-state error problem:")
+    st.latex(r'''
+    $$u(t) = K_p e(t) + K_I \int_0^t e(t) dt$$
+    ''')
     pi_controller = PIController(Kp=0.2, Ki = 0.15, set_point=T_desired)
     simulate_temp(pi_controller)
-    st.markdown(":Indeed, if we do nothing, the solar panel cools down. But now let us try to create a proper controller. ")
+    st.markdown("Overall, we are very satisfied with the performance of our solar panel now. For this particular problem, the PI controller proved to be an effective solution. However, there may be other situations where it is not sufficient to only consider the past with the integral term. In those cases, we also need to take into account the future. This is where the derivative term in the PID controller comes into play. ")
 
 
 
@@ -120,6 +124,11 @@ class PIDController:
 
 
 with tab3:
+    st.markdown("The formula for the PID controller is: ")
+    st.latex(r'''
+    $$u(t) = K_p e(t) + K_I \int_0^t e(t) dt + K_d \frac{de}{dt}$$
+    ''')
+    st.markdown("In our Solar Panel problem, the PID controller doesn't provide much benefit. You can find an interactive simulation of the solar panel system below, where you can adjust the parameters $K_p, K_i, K_d$ using sliders. You'll notice that the derivative term doesn't contribute much here.")
     col1, col2 = st.columns([1, 3])
     with col1:
         st.markdown("### Constants Controls")
