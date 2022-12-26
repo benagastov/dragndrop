@@ -34,8 +34,7 @@ def simulate_temp(controller, num_steps=20):
 tab1, tab2, tab3 = st.tabs(["Proportional", "Integral", "Derivative"])
 
 with tab1:
-    st.header("A cat")
-    st.image("https://static.streamlit.io/examples/cat.jpg", width=200)
+    st.header("Proportional Controller")
     class SillyController:
         def get_control(self,T,dt):
             return 0
