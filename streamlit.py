@@ -86,7 +86,7 @@ class PIDController:
 
 
 with tab3:
-    col1, col2 = st.columns([3, 1])
+    col1, col2 = st.columns([1, 3])
     with col1:
         Kp =  st.slider("Kp", min_value=0.0, max_value=0.4, value=0.1, step=0.05)
         Ki =  st.slider("Ki", min_value=0.0, max_value=0.5, value=0.1, step=0.01)
